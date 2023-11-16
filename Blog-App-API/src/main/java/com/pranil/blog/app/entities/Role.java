@@ -3,6 +3,7 @@ package com.pranil.blog.app.entities;
 import javax.annotation.processing.Generated;
 import javax.persistence.*;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,11 +11,11 @@ import lombok.Setter;
 @Table
 @Getter
 @Setter
+@Data
 
 public class Role {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
 

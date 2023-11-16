@@ -11,13 +11,13 @@ import com.pranil.blog.app.exceptions.ResourceNotFoundException;
 import com.pranil.blog.app.repositorys.UserRepo;
 @Service
 public class CustomUserDetailService implements UserDetailsService {
-
+ 
 	@Autowired
 	private UserRepo repo;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
+        System.out.println("hi");
 		User user = this.repo.findByEmail(username).orElseThrow(()->new ResourceNotFoundException("Username", "not found with email : "+username, 0));
 		
 		System.out.println(user.getEmail()+" "+user.getPassword());

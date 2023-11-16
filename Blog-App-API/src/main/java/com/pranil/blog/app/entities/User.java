@@ -33,8 +33,10 @@ public class User implements UserDetails{
 	private String password;
 	private String about;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<Post> posts = new ArrayList<>();
+//	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//	private List<Post> posts = new ArrayList<>();
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Post> posts = new ArrayList<>();
 
 	@ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "id"))
@@ -44,7 +46,7 @@ public class User implements UserDetails{
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 
 		System.out.println("me");
-		List<SimpleGrantedAuthority> collect = this.roles.stream().map((map)-> new SimpleGrantedAuthority(map.getName())).collect(Collectors.toList());
+		List<SimpleGrantedAuthority> collect = this.roles.stream().map((role)-> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
 
 		collect.forEach((one)->System.out.println(one.getAuthority()+" "));
 		System.out.println("me");

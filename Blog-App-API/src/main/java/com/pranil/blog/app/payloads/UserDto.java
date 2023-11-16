@@ -1,6 +1,12 @@
 package com.pranil.blog.app.payloads;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.validation.constraints.*;
+
+import com.pranil.blog.app.entities.Role;
+
 ////import javax.validation.constraints.NotNull;
 //import org.hibernate.validator.constraints.*;
 import lombok.*;
@@ -24,4 +30,6 @@ public class UserDto {
 	private String password;
 	@NotEmpty
 	private String about;
+	
+	private Set<RoleDto> roles = new HashSet<>();
 }

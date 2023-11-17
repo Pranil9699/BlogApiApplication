@@ -59,3 +59,17 @@ To run the application locally, follow these steps:
 
    ```bash
    git clone <repository-url>
+2. Navigate to the project directory:
+
+   ```bash
+   cd blog-application
+3. Build the project using Maven:
+
+   ```bash
+   mvn clean install
+4. Run the application:
+
+   ```bash
+   mvn spring-boot:run
+
+   The application will be accessible at [http://localhost:8080](#http://localhost:8080).

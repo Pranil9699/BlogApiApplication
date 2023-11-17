@@ -84,7 +84,7 @@ To run the application locally, follow these steps:
     endpoints using tools like Postman or by accessing them  
     through a web browser.
 
-Example API endpoint: http://localhost:8080/api/posts.
+    Example API endpoint: http://localhost:8080/api/posts.
 
 7. Explore the Application:
   - Visit http://localhost:8080 in your browser.

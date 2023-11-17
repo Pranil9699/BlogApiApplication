@@ -71,5 +71,4 @@ To run the application locally, follow these steps:
 
    ```bash
    mvn spring-boot:run
-
-The application will be accessible at [http://localhost:8080](#http://localhost:8080).
+  The application will be accessible at [http://localhost:8080](#http://localhost:8080).

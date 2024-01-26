@@ -1,0 +1,2398 @@
+step 1 : check installed NodeJs latest Version
+Step 2 : {
+ npm install -g npm@10.2.5   ,
+ npx create-react-app blog-app,
+  npm install reactstrap react react-dom,
+And Going to src/App.js file and put over their 'import 'bootstrap/dist/css/bootstrap.min.css';' where we setup the bootstap in project 
+
+}
+Step 3 : {
+To manageing the Base.js we created that under src/components/Base.js where we Write Code Link this ->{
+import React from "react";
+
+const Base = ({ title = "Welcome To Website", children }) => {
+  return (
+    <div className="container-fluid ">
+      <h1>This is Header</h1>
+      {children}
+      <h1>This is Footer</h1>
+    </div>
+  );
+};
+
+export default Base;
+}
+
+And After this which ever page we want to load them inside Base page and rest Of the BasepAGE cODE  will priserve in website :{
+import React from 'react'
+import Base from '../components/Base'
+
+const About = () => {
+  return (
+    <div>
+    <Base>
+    Hi Im Middel Content
+    </Base>
+    </div>
+  )
+}
+
+export default About
+
+
+}
+
+step 4 : now we are getting the navbar code from reactstarp webpage and paste it in IDE,
+         then our code look like {
+import React, { useState } from "react";
+import { NavLink as ReactNavLink } from "react-router-dom";
+import {
+  Collapse,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  Nav,
+  NavItem,
+  NavLink,
+  Navbar,
+  NavbarBrand,
+  NavbarText,
+  NavbarToggler,
+  UncontrolledDropdown,
+} from "reactstrap";
+
+const CustomNavbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div>
+      <Navbar 
+      color="dark"
+      dark
+      expand="md"
+      fixed="">
+        <NavbarBrand tag={ReactNavLink} to="/">
+          MyBlogs
+        </NavbarBrand>
+        <NavbarToggler onClick={() => {setIsOpen(!isOpen)}} />
+        <Collapse isOpen={isOpen} navbar>
+          <Nav className="me-auto" navbar>
+            <NavItem>
+              <NavLink tag={ReactNavLink} to="/about">
+                About
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink tag={ReactNavLink} to="/login">
+                Login
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink tag={ReactNavLink} to="/signup">
+                SignUp
+              </NavLink>
+            </NavItem>
+            <UncontrolledDropdown nav inNavbar>
+              <DropdownToggle nav caret>
+                More
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem tag={ReactNavLink} to="/services">
+                  Services
+                </DropdownItem>
+                <DropdownItem tag={ReactNavLink} to="/contact">
+                  Contact
+                </DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem>YouTube</DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          </Nav>
+          <NavbarText>YouTube</NavbarText>
+        </Collapse>
+      </Navbar>
+    </div>
+  );
+};
+
+export default CustomNavbar;
+}
+
+look at about toggle button where having the field which is isOpen it depends on device to device that size and it adjust the size depend device .
+"  <NavbarToggler onClick={() => {setIsOpen(!isOpen)}} />"
+
+,
+
+
+Step 5 : look next step is I need to Create the Login And signup form 
+         for that im going to used the reacrstrap Component 
+         ex.
+{
+import React, { useEffect, useState } from "react";
+import Base from "../components/Base";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Col,
+  Container,
+  Form,
+  FormGroup,
+  Input,
+  Label,
+  Row,
+} from "reactstrap";
+
+const Signup = () => {
+  const [data, setData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    about: "",
+  });
+
+  const [error, setError] = useState({
+    error: {},
+    isError: false,
+  });
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+  return (
+    <Base>
+      <Container>
+        {/* <h3>Fill The Registration Form</h3> */}
+        <Row className="mt-5">
+          <Col sm={{ offset: 3, size: 6 }}>
+            <Card color="dark" className="border-info-subtle" inverse>
+              <CardHeader className="display-6 text-center text-bg-secondary ">
+                Create New Blog Account
+              </CardHeader>
+              <CardBody>
+                <Form>
+                  {/* This group for single name field  */}
+                  <FormGroup>
+                    <Label for="name">Enter Name</Label>
+                    <Input
+                      type="text"
+                      placeholder="Raj..."
+                      id="name"
+                      onChange={(e) =>
+                        setData({ ...data, name: e.target.value })
+                      }
+                      className="border-info-subtle focus-ring-light   "
+                    />
+                  </FormGroup>
+                  {/* This group for single email field  */}
+                  <FormGroup>
+                    <Label for="email">Enter Email</Label>
+                    <Input
+                      type="email"
+                      placeholder="...@gmail.com"
+                      id="email"
+                      onChange={(e) =>
+                        setData({ ...data, email: e.target.value })
+                      }
+                      className="border-info-subtle focus-ring-light   "
+                    />
+                  </FormGroup>
+                  {/* This group for single Password field  */}
+                  <FormGroup>
+                    <Label for="password">Enter Password</Label>
+                    <Input
+                      type="password"
+                      placeholder="Raj****"
+                      id="password"
+                      onChange={(e) =>
+                        setData({ ...data, password: e.target.value })
+                      }
+                      className="border-info-subtle focus-ring-light   "
+                    />
+                  </FormGroup>
+                  {/* This group for single ABout field  */}
+                  <FormGroup>
+                    <Label for="about">Enter About</Label>
+                    <Input
+                      type="textarea"
+                      placeholder="what do you like..."
+                      id="about"
+                      style={{ height: 200 }}
+                      onChange={(e) =>
+                        setData({ ...data, about: e.target.value })
+                      }
+                      className="border-info-subtle focus-ring-light   "
+                    />
+                  </FormGroup>
+                  <Container className="text-center  ">
+                    <Button
+                      type="submit"
+                      outline
+                      color="light"
+                      className="m-2 border-info-subtle "
+                    >
+                      Register
+                    </Button>
+                    <Button
+                      type="reset"
+                      outline
+                      color="light"
+                      className="m-2 border-danger-subtle"
+                    >
+                      Reset
+                    </Button>
+                  </Container>
+                </Form>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </Base>
+  );
+};
+
+export default Signup;
+}   here you see one chnage => <Col sm={{ offset: 3, size: 6 }}>    where first when we used <Container> then its provide some marin both horizontal side , then our used size if 12 col's 
+    for remove 3 both side we used offset 3 , means remove that side from both side & size: 6 it means what size we need at last when it provide for the form
+
+
+here in above code we are used two way binding the code because we need to further provide it to backend so we build one object which is Data => 
+ const [data, setData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    about: "",
+  });
+
+also we are add the onChange handler to input side cuz when each type of keyword we type on input field then that will called
+
+where when ever we change that data object we want to show that to console so we use UseEffect() func. where it call when ever you change or call setData() func =>
+useEffect(() => {
+    console.log(data);
+  }, [data]);
+
+
+
+next Step : installing the "npm install axios" => server call and "npm install react-toastify" for MSG displaying
+
+
+
+ next step : 
+
+to connect with frontend application with backend so we need to get server url
+BASE_URL='http://localhost:8080'
+
+
+to server call and putting the services for server call we create folder - services 
+inside services - helper.js for putting env variable 
+
+helper.js {
+import axios from 'axios';
+export const BASE_URL='http://localhost:8080';
+
+export const myAxios = axios.create({
+baseURL:BASE_URL
+
+});
+
+}
+
+now we need to create user-service.js for all services of user 
+
+user_service.js {
+
+import { myAxios }  from "./helper";
+
+export const signup = (user)=>{
+return  myAxios.post('/api/v1/auth/register',user).then((response)=>{
+response.json()
+);
+}
+
+
+now we getting the error which come for this function in signup.js 
+code {
+ const submitForm = (event) => {
+    event.preventDefault();
+    // console.log(data);
+    console.log("here");
+    signup(data)
+      .then((res) => {
+        console.log(res);
+        console.log("Success");
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log("Error");
+      });
+  };
+}
+and we getting error which is 
+{
+AxiosError {message: 'Network Error', name: 'AxiosError', code: 'ERR_NETWORK', config: {…}, request: XMLHttpRequest, …}
+code
+: 
+"ERR_NETWORK"
+config
+: 
+{transitional: {…}, adapter: Array(2), transformRequest: Array(1), transformResponse: Array(1), timeout: 0, …}
+message
+: 
+"Network Error"
+name
+: 
+"AxiosError"
+request
+: 
+XMLHttpRequest {onreadystatechange: null, readyState: 4, timeout: 0, withCredentials: false, upload: XMLHttpRequestUpload, …}
+stack
+: 
+"AxiosError: Network Error\n    at XMLHttpRequest.handleError (http://localhost:3000/static/js/bundle.js:60563:14)"
+[[Prototype]]
+: 
+Error
+}
+
+it say's the we are trying to access the cors string which means we need to give that access of all header for get and put request in frontend application
+
+if we have on header then we can managed that by { @CrossOrigin }
+
+most of cases the CrossOrigin is not perfect work so we need to all time it work correctly so we Declare @Bean
+
+but we have multiple handler which need to add this type so we write one @Bean in securityConfig.java file
+
+{
+
+import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+
+@Bean
+	public FilterRegistrationBean corsFilter() {
+		
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		
+		// Construct a new CorsConfiguration instance with no cross-originrequests allowed for any origin by default.
+		CorsConfiguration corsConfiguration = new CorsConfiguration();
+		corsConfiguration.setAllowCredentials(true);  // by default this is not set , user need to set credential 
+		
+		// here it * denoted which ever url pattern will having in our backend application we need to allow all that 
+		corsConfiguration.addAllowedOriginPattern("*");
+		
+		// here we allow what here are allow to access at time of method header for front end application 
+		corsConfiguration.addAllowedHeader("Authorization");
+		corsConfiguration.addAllowedHeader("Content-type");
+		corsConfiguration.addAllowedHeader("Accept");
+		
+		//  here we allow method which cors means front end application will allow to access 
+		corsConfiguration.addAllowedMethod("POST");
+		corsConfiguration.addAllowedMethod("GET");
+		corsConfiguration.addAllowedMethod("PUT");
+		corsConfiguration.addAllowedMethod("DELETE");
+		corsConfiguration.addAllowedMethod("OPTIONS");
+		
+		source.registerCorsConfiguration("/**",corsConfiguration);
+		// this will provide the bean which configuraed all thing to allow the Cors req
+		FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+		return bean;
+	}
+
+}
+
+
+now we after this i need to change the field constraint ( email for unique ) so we need to provide the correct response to user if in case the email field is already taken by another
+for that i token changes like this 
+{
+@Override
+	public UserDto registerNewUser(UserDto userDto) {
+		User user = this.modelMapper.map(userDto, User.class);
+		// encoded password
+		user.setPassword(this.passwordEncoder.encode(user.getPassword()));
+
+		// roles
+		Role role = this.roleRepo.findById(AppConstants.NORMAL_USER).get();
+
+		user.getRoles().add(role);
+		if (this.userRepo.findByEmail(user.getEmail()).isPresent()) {
+	        throw new DuplicateEmailException(user.getEmail());
+	    }
+		User save = this.userRepo.save(user);
+
+		return this.modelMapper.map(save, UserDto.class);
+	}
+
+,
+
+@Getter
+@Setter
+public class DuplicateEmailException extends RuntimeException {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String email;
+
+	public DuplicateEmailException(String email) {
+		super(String.format("This email Id - %s , Already Taken Another User", email));
+		this.email = email;
+	}
+}
+
+
+@ExceptionHandler(DuplicateEmailException.class)
+	public ResponseEntity<ApiResponse> resourceNotFoundExceptionHandler(DuplicateEmailException exception){
+//		System.out.println("Duplicate..");
+		return new ResponseEntity<ApiResponse>(new ApiResponse(exception.getMessage(),false),HttpStatus.CONFLICT);
+	}
+
+}
+after this i reailey i need to chnage some code inside the react for getting 201 response and 401 response so the code look like 
+
+{
+
+
+signup.js - 
+
+ const submitForm = (event) => {
+    event.preventDefault();
+    // console.log(data);
+    console.log("here");
+    signup(data)
+    .then((responseData) => {
+      console.log(responseData);
+      console.log("Success");
+    })
+    .catch((error) => {
+      console.log(error);
+      console.log("Error");
+      // Handle the error, e.g., show a message to the user
+    });
+    // console.log(" data show ");
+  };
+
+and  
+
+user-service.js -
+
+export const signup = (user) => {
+    return myAxios
+    .post("/api/v1/auth/register", user)
+    .then((response) => {
+      console.log(response.status + " status ");
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error.response.status + " status "); // log the HTTP status code
+      throw error.response.data; // throw the response data to be caught in the catch block
+    });
+};
+
+
+}
+where i reailyed the exception requests reponse and inside the error ( response ( data ) ) ) - error.response.status
+
+ where simple non-exception response are  response( data) )  - response.status
+
+
+
+Next step i need to show the message to user like sucess and or execption occur at processing time so 
+i used the react-tostify 
+
+i need to put first import component and import css file in App.js for this doing im able to used eniter webapp the react toast  and after this in signup.js file i need to write toast.success() and toast.error() func for provide message on screen
+
+
+i write code like this {
+
+App.js-
+
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+function App() {
+  return (
+    <BrowserRouter>
+    <ToastContainer position="bottom-center" />
+      <Routes>
+        <Route path="/" element={<Home />}></Route>
+        <Route path="/About" element={<About />}></Route>
+        <Route path="/Login" element={<Login />}></Route>
+        <Route path="/Signup" element={<Signup />}></Route>
+        <Route path="/services" element={<Services />}></Route>
+        <Route path="/contact" element={<Contact />}></Route>
+      </Routes>
+    </BrowserRouter>
+
+
+
+also i put position of it by position attribute at bottom-center
+
+
+signup.js  -
+
+signup(data)
+    .then((responseData) => {
+      console.log(responseData);
+      toast.success("User is Registerd Successfully.")
+      console.log("Success");
+    })
+    .catch((error) => {
+      console.log(error);
+      // {message,success}= error
+      if (error && error.message) {
+        toast.error(error.message+" : "+ error.success);
+      }else{
+        console.log("nothing");
+      }
+      console.log("Error");
+      // Handle the error, e.g., show a message to the user
+    });
+
+
+}
+
+
+
+next step : 
+
+we need to show the server side errors which comes for different field like name , email, password ,about 
+
+make sure in controller having the @Valid annotation for getting BidingResult of different field 
+
+look we also need what ever error msg come from axios call and will handle by catch block 
+
+look this msg
+{
+.catch((error) => {
+      console.log(error.response.status + " status "); // log the HTTP status code
+      throw error.response;
+    });
+}
+
+i put that error inside the error useState() 
+
+
+{
+
+signup(data)
+      .then((responseData) => {
+        // console.log(responseData);
+        toast.success("User is Registerd Successfully.");
+        // console.log("Success");
+        resetData();
+      })
+      .catch((error) => {
+        {
+          // {message,success}= error
+          // if (error && error.message) {
+          //   toast.error(error.message+" : "+ error.success);
+          // }else{
+          //   console.log("nothing");
+          // }
+          // console.log(error.data);
+        }
+        if (error.status === 409) {
+          toast.error(error.data.message);             <-------------------
+          resetData();
+          setError({
+            errors: {},
+            isError: false,
+          });
+        } else {
+          setError({
+            errors: { error },
+            isError: false,
+          });
+        }
+      });}
+
+
+
+}
+
+
+
+after this i also add server validation MSG on front end  like this 
+{
+ <FormGroup>
+                    <Label for="name">Enter Name</Label>
+                    <Input
+                      type="text"
+                      placeholder="Raj..."
+                      id="name"
+                      onChange={(e) =>
+                        setData({ ...data, name: e.target.value })
+                      }
+                      value={data.name}
+                      className="border-info-subtle focus-ring-light   "
+                      invalid={error.errors?.error?.data?.name ? true : false}
+                    />
+                    <FormFeedback>
+                      {error.errors?.error?.data?.name}
+                    </FormFeedback>
+                  </FormGroup>
+}
+using -> invalid - i put the red ring and icon of error 
+
+and <FormFeedback> inside that we put msg that visible at front end 
+
+
+
+
+next step :
+
+is to manage the Login page and that respective jwt token
+
+same as this i generated the loginUser and getting token in response 
+
+{
+
+ const submitForm = (event) => {
+    event.preventDefault();
+    console.log(loginDetails);
+
+    if (
+      loginDetails.username.trim() == "" ||
+      loginDetails.password.trim() == ""
+    ) {
+      toast.error("Username or Password is blank.");
+      return;
+    }
+
+    loginUser(loginDetails)
+    .then((responseData) => {
+      console.log(responseData);
+      toast.success("User is Logged Successfully.");
+      // console.log("Success");
+
+      resetloginDetails();
+    })
+    .catch((error) => {
+      {
+        console.log(error);
+      }
+      if (error.status ===401 || error.status === 400 ) {
+        toast.error(error.data.message);
+        resetloginDetails();
+        setError({
+          errors: {},
+          isError: false,
+        });
+      } else {
+        setError({
+          errors: { error },
+          isError: false,
+        });
+      }
+    });
+
+    resetloginDetails();
+  };
+
+
+
+}
+
+
+next step : we are creating on index.js file which will check that machine having any user logged , remove login details , do login user 
+
+
+for that first we are creating the folder "auth" where we doing the operation of jwt and localstorage 
+
+we need to get jwt token as well as user data so we are getting that data from UserDetailService 
+we put that data inside jwtResponse and it go back to login.js page
+
+after this we are taking that data and gives auth/index.js method to store on localStroage 
+
+auth/index.js
+{
+
+
+// User is Logged In
+
+export const isLoggedIn = () => {
+  let data = JSON.parse(localStorage.getItem("data"));
+  if (data == null) return false;
+  else return true;
+};
+
+// set data in localStorge
+
+export const LoginUser = (data, next) => {
+  localStorage.setItem("data", JSON.stringify(data));
+
+  // redirect to user on page 
+
+
+
+  next();
+};
+
+// doLoggedOut  - remove data from localstorage
+
+export const doLogout = (next) => {
+  localStorage.removeItem("data");
+  next();
+};
+
+// get current user
+
+export const getCurrentUserDetail = () => {
+  if (isLoggedIn) return JSON.parse(localStorage.getItem("data")).data;
+  else return false;
+};
+
+
+}
+
+did you know about the call back function 
+ex. run(data,()=>{
+// this is call back function 
+
+}
+)
+
+
+
+}
+
+next Step : we are going to manage the private route in react application 
+
+before the react-route-dom version 6 the all work are done by private route
+
+
+here first of all we are create one folder - user-route : where are putting all the files which are going to used for user after login 
+
+1)  first i create PrivateRoute.jsx 
+     
+	here inside that i use condition statement for redirect user if logged or not logged 
+
+also used <Outlet /> component which is used to put the dashboard.jsx all data inside Privateroute.jsx  and if incase the user is not logged then we redirect that toword to <Login /> component where to login first
+
+here is code of 
+
+components/PrivateRoute.jsx
+
+{
+
+import React from "react";
+import { isLoggedIn } from "../auth";
+import { Navigate, Outlet } from "react-router-dom";
+import Login from "../pages/Login";
+
+const Privateroute = () => {
+
+    return isLoggedIn() ? <Outlet /> : <Navigate to={"/login"} />;
+};
+
+export default Privateroute;
+
+
+}
+
+2 ) i create the user-route and inside that i put two pages 
+i) user-route/Userdashboard.jsx
+ii) user-route/ProfileInfo.jsx
+
+code inside both page 
+Userdashboard.jsx
+{
+import React from "react";
+
+const Userdashboard = () => {
+  return <div>this is user dash borad</div>;
+};
+
+export default Userdashboard;
+
+}
+
+ProfileInfo.jsx
+{
+
+import React from "react";
+
+const ProfileInfo = () => {
+  return <>This is Profile Info of user</>;
+};
+
+export default Profile - Info;
+
+}
+
+3 ) i also  changes in App.js code for routing 
+
+App.js 
+{
+
+  return (
+    <BrowserRouter>
+      <ToastContainer position="bottom-center" />
+      <Routes>
+        <Route path="/" element={<Home />}></Route>
+        <Route path="/About" element={<About />}></Route>
+        <Route path="/Login" element={<Login />}></Route>
+        <Route path="/Signup" element={<Signup />}></Route>
+        <Route path="/services" element={<Services />}></Route>
+        <Route path="/contact" element={<Contact />}></Route>
+
+        <Route path="/user" element={<Privateroute />}>
+          <Route path="dashboard" element={<Userdashboard />} />
+          <Route path="profile" element={<ProfileInfo />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+
+}
+
+look this code <Route> can contain multiple subRoute like this Userdashboard and ProfileInfo route
+
+
+step next :
+ i need to show the icons of youtube , instagram , githut so im going to website and search - react-fontawsom ,
+i need to run tow npm install
+
+1)  npm install @google/generative-ai
+2)  npm install @fortawesome/free-brands-svg-icons
+
+here i'm install the fontawesome icons and their related tags
+
+so im write code like this in CustomNavBar.jsx
+
+{
+
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faYoutube,
+  faInstagram,
+  faGithub,
+} from "@fortawesome/free-brands-svg-icons";
+
+
+const CustomNavbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  // this is for icons 
+  const [focusedIcon, setFocusedIcon] = useState(null);
+
+  const handleDropdownFocus = (icon) => {
+    setFocusedIcon(icon);
+  };
+ //....
+
+
+
+ 
+  return (
+    <div>
+      <Navbar color="dark" dark expand="md" fixed="" className="px-5">
+        <NavbarBrand tag={ReactNavLink} to="/">
+          MyBlogs
+        </NavbarBrand>
+        <NavbarToggler
+          onClick={() => {
+            setIsOpen(!isOpen);
+          }}
+        />
+        <Collapse isOpen={isOpen} navbar>
+          <Nav className="me-auto" navbar>
+            <NavItem>
+              <NavLink tag={ReactNavLink} to="/">
+                Home
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink tag={ReactNavLink} to="/about">
+                About
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink tag={ReactNavLink} to="/services">
+                Services
+              </NavLink>
+            </NavItem>
+
+            <UncontrolledDropdown
+              nav
+              inNavbar
+              onMouseOver={() => handleDropdownFocus("youtube")}
+              onMouseOut={() => handleDropdownFocus(null)}
+            >
+              <DropdownToggle nav caret>
+                More
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem tag={ReactNavLink} to="/contact">
+                  Contact
+                </DropdownItem>
+
+                <DropdownItem divider />
+                <DropdownItem onFocus={() => handleDropdownFocus("youtube")}>
+                  <FontAwesomeIcon icon={faYoutube} style={{ color: "rgb(255, 0, 0)" }} /> YouTube
+                </DropdownItem>
+                <DropdownItem onFocus={() => handleDropdownFocus("instagram")}>
+                  <FontAwesomeIcon icon={faInstagram} style={{ color: "rgb(255, 133, 133)" }}/> Instagram
+                </DropdownItem>
+                <DropdownItem onFocus={() => handleDropdownFocus("github")}>
+                  <FontAwesomeIcon icon={faGithub} style={{ color: "rgb(64, 64, 64)" }} /> Github
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          </Nav>
+          <Nav navbar>
+            <NavItem>
+              <NavLink tag={ReactNavLink} to="/login">
+                Login
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink tag={ReactNavLink} to="/signup">
+                SignUp
+              </NavLink>
+            </NavItem>
+          </Nav>
+          <NavbarText>YouTube</NavbarText>
+        </Collapse>
+      </Navbar>
+    </div>
+  );
+};
+
+}
+
+now look at icons 
+
+
+next step : we want to add code or write code for user if user is login then we redirect that toword user/dashboard and is login data is not present then redirect to login page
+
+before that we need to create two useState() user-> get data of user and login -> check loginOrNot
+
+
+so in CustomNavbar.jsx we create this use state and after this we also write some code for chnaging the some navbar menu 
+
+CustomNavbar.jsx 
+{
+
+import { doLogout, getCurrentUserDetail, isLoggedIn } from "../auth";
+
+const CustomNavbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  // this is for icons
+  // const [focusedIcon, setFocusedIcon] = useState(null);
+
+  // const handleDropdownFocus = (icon) => {
+  //   setFocusedIcon(icon);
+  // };
+  //....
+
+
+  //this will prefalse condition because it is based on user login or not login
+  const [login, setLogin] = useState(false);
+  
+  // this will store the user data where we first define it to undefined
+  const [user, setUser] = useState(undefined);
+
+
+  useEffect(()=>{
+
+// first we use setLogin() method to check user is login or not '
+setLogin(isLoggedIn());
+// second we get the current user details 
+setUser(getCurrentUserDetail());
+
+
+  },[login])
+
+
+  const logout = ()=>{
+    doLogout(()=>{
+      setLogin(false)
+    })
+  }
+  return (
+    <div>
+      <Navbar color="dark" dark expand="md" fixed="" className="px-5">
+        <NavbarBrand tag={ReactNavLink} to="/">
+          MyBlogs
+        </NavbarBrand>
+        <NavbarToggler
+          onClick={() => {
+            setIsOpen(!isOpen);
+          }}
+        />
+        <Collapse isOpen={isOpen} navbar>
+          <Nav className="me-auto" navbar>
+            <NavItem>
+              <NavLink tag={ReactNavLink} to="/">
+                New Feeds
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink tag={ReactNavLink} to="/about">
+                About
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink tag={ReactNavLink} to="/services">
+                Services
+              </NavLink>
+            </NavItem>
+
+            <UncontrolledDropdown
+              nav
+              inNavbar
+              // onMouseOver={() => handleDropdownFocus("youtube")}
+              // onMouseOut={() => handleDropdownFocus(null)}
+            >
+              <DropdownToggle nav caret>
+                More
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem tag={ReactNavLink} to="/contact">
+                  Contact Us
+                </DropdownItem>
+
+                <DropdownItem divider />
+                {/* <DropdownItem onFocus={() => handleDropdownFocus("youtube")}>
+                 YouTube   {focusedIcon=="youtube"?<FontAwesomeIcon  icon={faYoutube} style={{ color: "rgb(255, 0, 0)"}} /> : ""}
+                </DropdownItem> */}
+                <DropdownItem>
+                  <FontAwesomeIcon
+                    icon={faYoutube}
+                    style={{ color: "rgb(255, 0, 0)" }}
+                  />{" "}
+                  YouTube
+                </DropdownItem>
+                <DropdownItem>
+                  <FontAwesomeIcon
+                    icon={faInstagram}
+                    style={{ color: "rgb(255, 133, 133)" }}
+                  />{" "}
+                  Instagram
+                </DropdownItem>
+                <DropdownItem>
+                  <FontAwesomeIcon
+                    icon={faGithub}
+                    style={{ color: "rgb(64, 64, 64)" }}
+                  />{" "}
+                  Github
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          </Nav>
+          <Nav navbar>
+            {login && (
+              <>
+                <NavItem>
+                  <NavLink onClick={logout} tag={ReactNavLink} to="/login">
+                    Logout
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={ReactNavLink} to="/user/profile">
+                    {user?.email}
+                  </NavLink>
+                </NavItem>
+              </>
+            )}
+            {!login && (
+              <>
+                <NavItem>
+                  <NavLink tag={ReactNavLink} to="/login">
+                    Login
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={ReactNavLink} to="/signup">
+                    SignUp
+                  </NavLink>
+                </NavItem>
+              </>
+            )}
+          </Nav>
+         
+        </Collapse>
+      </Navbar>
+    </div>
+  );
+};
+
+export default CustomNavbar;
+
+}
+here look also we are creating the page where conditonaly check the user is logged or not so just for we used {login && ....} and {!login && ....} 
+
+
+here look i created in code the logout functionlity where i cleaning the localstorage 
+
+
+important note
+
+
+// error = rawPassword cannot be null
+	// at time of signup.js page
+	// when we apply the @jsonIgnore for getter method the automatically which ever code comes from front end that automatically ignored
+	// so we want to setter method of password and not want the getter method to pass the password back to the user as json object
+	// so used getter - jsonignore and used setter - jsonproperty 
+	@JsonProperty
+	public void setPassword(String password) {
+		this.password=password;
+	}
+	@JsonIgnore
+	public String getPassword() {
+		return this.password;
+	}
+
+
+
+
+
+
+
+
+jodit react installing for text editor type board or editor 
+{
+npm install jodit-react
+
+}
+
+look at time of jodit-react i just write code like this 
+{
+
+
+  // for jodit editor
+
+  const editor = useRef(null);
+
+..
+..
+..
+ <FormGroup>
+                    <Label for="content">Post Content</Label>
+
+                    <JoditEditor
+                      ref={editor}
+                      // value={content}
+                      value={`${postData.content}`}
+                      onChange={(newContent) => contentFieldChange(newContent)}
+                      // invalid={postError.err?.content ? true : false}
+                      // config={config}
+                      id="content"
+                    />
+                    {/* <FormText>{postError.err?.title}</FormText> */}
+
+                    {/* 
+                    <Input
+                      id="content"
+                      type="textarea"
+                      style={{ height: 150 }}
+                      name="content"
+                      placeholder="India's E.... Post Content"
+                      invalid={postError.err?.content ? true : false}
+                      onChange={(e) => {
+                        setPostData({ ...postData, content: e.target.value });
+                      }}
+                      value={postData.content}
+                    />
+                    <FormText>{postError.err?.title}</FormText> */}
+                  </FormGroup>
+
+
+
+}
+
+
+
+at time of backend when im doing the post req that time the header are not readed so for that we add this code like 
+SecurityConfig.java file 
+
+{
+
+in corsFilter() method
+
+// this will provide the bean which configuraed all thing to allow the Cors req
+		FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+		
+// setting the order 
+		bean.setOrder(-110);
+
+
+}
+
+
+after this i change the react project file 
+
+helper.js
+
+{
+import axios from "axios";
+import { getToken } from "../auth";
+export const BASE_URL = "http://localhost:8080/api/v1/";
+
+export const myAxios = axios.create({
+  baseURL: BASE_URL,
+});
+const Token = getToken();
+export const jwtHeader = {
+  headers: {
+    "Content-Type": "application/json", // look this line giving me error at time of POST request time , look at backend im not getting jwt token and i get only null 
+    Authorization: `Bearer ${Token}`,
+  },
+};
+
+
+
+}
+
+after this i write code for category-service.js and post-service.js
+
+category-service.js
+
+{
+import { jwtHeader, myAxios } from "./helper";
+
+export const getAllCategories = () => {
+  return myAxios
+    .get("categories/")
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      throw error.response.data;
+    });
+};
+
+export const createNewCategory = (newCategory) => {
+  return myAxios.post("categories/", newCategory,jwtHeader).then((response) => {
+    console.log("response"+response.data);
+
+    return response.data;
+  })
+  .catch((error) => {
+    console.log("error");
+
+    // console.log(error.response.data);
+    throw error.response.data;
+  });;
+};
+
+}
+
+and 
+post-service.js
+
+{
+import { jwtHeader, myAxios, privateAxios } from "./helper";
+
+export const CreatePost = (postData) => {
+//   console.log(JSON.stringify(postData));
+// console.log(`user/${postData.userId}/category/${postData.categoryId}/posts`);
+  return myAxios
+    .post(
+      `user/${postData.userId}/category/${postData.categoryId}/posts`,
+      postData,
+      jwtHeader
+    )
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.log("there is error in post ...");
+      console.log(error.response.data);
+      console.log(error.response.status);
+      throw error.response;
+    });
+};
+
+
+
+
+}
+
+after this how the modal will appear and modal will disapper , and AddPost.jsx file code 
+
+AddPost.jsx
+
+{
+
+
+import React, { useEffect, useRef, useState } from "react";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Col,
+  Container,
+  Form,
+  FormGroup,
+  FormText,
+  Input,
+  Label,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  Row,
+} from "reactstrap";
+import {
+  createNewCategory,
+  getAllCategories,
+} from "../services/category-service";
+import { toast } from "react-toastify";
+import { CreatePost } from "../services/post-service";
+import { getCurrentUserDetail } from "../auth";
+import JoditEditor from "jodit-react";
+
+const AddPost = () => {
+  // for jodit editor
+
+  const editor = useRef(null);
+
+  const [categories, setCategories] = useState([]);
+
+  const [newCategory, setNewCategory] = useState({
+    categoryTitle: "",
+    categoryDescription: "",
+  });
+
+  const [showModal, setShowModal] = useState(false);
+
+  const [isCheckboxSelected, setCheckboxSelected] = useState(false);
+
+  const [categoryError, setCategoryError] = useState({
+    err: {},
+  });
+
+  const [postData, setPostData] = useState({
+    title: "",
+    content: "",
+    categoryId: -1,
+  });
+
+  const [user, setUser] = useState(undefined);
+
+  const resetPostData = () => {
+    setPostData({
+      title: "",
+      content: "",
+      categoryId: -1,
+    });
+  };
+
+  const resetNewCategory = () => {
+    setNewCategory({
+      categoryTitle: "",
+      categoryDescription: "",
+    });
+  };
+
+  const resetCategoryError = () => {
+    setCategoryError({
+      err: {},
+    });
+  };
+
+  const handleCheckboxChange = () => {
+    setCheckboxSelected(!isCheckboxSelected);
+    setShowModal(!showModal); // Toggle the modal when the checkbox is selected/unselected
+    resetNewCategory();
+    resetCategoryError();
+  };
+
+  const handlePost = (event) => {
+    event.preventDefault();
+
+    setPostData({ ...postData, userId: Number.parseInt(user?.id) });
+    if (postData.title.trim() === "") {
+      toast.warning("fill up title");
+      return;
+    }
+    if (document.getElementById("content").value === "") {
+      toast.warning("fill up content");
+      return;
+    }
+    if (postData.categoryId === -1) {
+      toast.warning("choose the Category");
+      return;
+    }
+    postData["userId"] = user?.id;
+    CreatePost(postData)
+      .then((data) => {
+        toast.success("Post is Created...");
+        resetPostData();
+        document.getElementById("category").value = 0;
+      })
+      .catch((error) => {
+        if (
+          error.status === 400 ||
+          error.status === 401 ||
+          error.status === 404 ||
+          error.status === 500 ||
+          error.status === 501
+        )
+          toast.error(error);
+      });
+  };
+  const handleCreateCategory = (event) => {
+    event.preventDefault();
+    if (
+      newCategory.categoryTitle.trim() === "" ||
+      newCategory.categoryDescription.trim() === ""
+    ) {
+      return;
+    }
+
+    resetCategoryError();
+    createNewCategory(newCategory)
+      .then((data) => {
+        //success - close modal , show toast - like new Category will added , addd new category to categories
+        handleCheckboxChange();
+        console.log(data);
+        toast.success("New Category is Added , Pleased Select Category");
+        setCategories((prevCategories) => [...prevCategories, data]);
+      })
+      .catch((error) => {
+        if (
+          error.status === 400 ||
+          error.status === 401 ||
+          error.status === 404 ||
+          error.status === 500 ||
+          error.status === 501
+        )
+          toast.error(error);
+        setCategoryError({
+          err: error,
+        });
+        console.log(categoryError);
+      });
+  };
+
+  useEffect(() => {
+    setUser(getCurrentUserDetail());
+
+    getAllCategories()
+      .then((response) => {
+        setCategories(response);
+        console.log(">>>>>>");
+        console.log(response);
+        console.log(">>>>>>");
+      })
+      .catch((error) => {
+        toast.error(`At Time Of GetCategory Getting Error ${error}`);
+      });
+  }, []);
+  const contentFieldChange = (data) => {
+    setPostData({ ...postData, content: data });
+  };
+
+  return (
+    <>
+      <Container>
+        <Row>
+          <Col sm={{ offset: 3, size: 6 }}>
+            <Card>
+              <CardHeader className="display-6 text-center">
+                Add New Post
+              </CardHeader>
+              {/* {JSON.stringify(postData)}
+              {JSON.stringify(user)} */}
+
+              <CardBody>
+                <Form onSubmit={handlePost}>
+                  {/* // for title field */}
+                  <FormGroup>
+                    <Label for="title">Post Title</Label>
+                    <Input
+                      id="title"
+                      type="text"
+                      name="title"
+                      placeholder="Indian E.... Post Title"
+                      // invalid={postError.err?.title ? true : false}
+                      onChange={(e) => {
+                        setPostData({ ...postData, title: e.target.value });
+                      }}
+                      value={postData.title}
+                    />
+                    {/* <FormText>{postError.err?.title}</FormText> */}
+                  </FormGroup>
+                  <FormGroup>
+                    <Label for="content">Post Content</Label>
+
+                    <JoditEditor
+                      ref={editor}
+                      // value={content}
+                      value={`${postData.content}`}
+                      onChange={(newContent) => contentFieldChange(newContent)}
+                      // invalid={postError.err?.content ? true : false}
+                      // config={config}
+                      id="content"
+                    />
+                    {/* <FormText>{postError.err?.title}</FormText> */}
+
+                    {
+                    /* 
+                    <Input
+                      id="content"
+                      type="textarea"
+                      style={{ height: 150 }}
+                      name="content"
+                      placeholder="India's E.... Post Content"
+                      invalid={postError.err?.content ? true : false}
+                      onChange={(e) => {
+                        setPostData({ ...postData, content: e.target.value });
+                      }}
+                      value={postData.content}
+                    />
+                    <FormText>{postError.err?.title}</FormText> */
+                    }
+                  </FormGroup>
+                  <FormGroup>
+                    <Label for="category">Post Category</Label>
+                    <Input
+                      id="category"
+                      type="select"
+                      height={300}
+                      name="category"
+                      defaultValue={0}
+                      onChange={(e) => {
+                        setPostData({
+                          ...postData,
+                          categoryId: Number.parseInt(e.target.value),
+                        });
+                      }}
+                    >
+                      <option value={0} disabled>
+                        Select Category
+                      </option>
+                      {categories.map((category) => (
+                        <option
+                          key={category.categoryId}
+                          value={category.categoryId}
+                        >
+                          {" "}
+                          {category.categoryTitle}{" "}
+                        </option>
+                      ))}
+                    </Input>
+                  </FormGroup>
+
+                  <FormGroup check>
+                    <Label check>
+                      <Input
+                        type="checkbox"
+                        id="showModalCheckbox"
+                        onChange={handleCheckboxChange}
+                        checked={isCheckboxSelected}
+                      />
+                      Create New Category
+                    </Label>
+                  </FormGroup>
+                  <Container className="text-center mt-3 ">
+                    <Button type="submit" style={{ marginRight: "10px" }}>
+                      Post
+                    </Button>
+                    <Button type="reset" style={{ marginLeft: "10px" }}>
+                      Cancel
+                    </Button>
+                  </Container>
+                </Form>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+
+      {/* // defining the model means add new category form */}
+
+      <Modal isOpen={showModal} toggle={handleCheckboxChange}>
+        <ModalHeader
+          className="bg-body-secondary "
+          toggle={handleCheckboxChange}
+        >
+          Create New Category
+        </ModalHeader>
+        <ModalBody>
+          <Form onSubmit={handleCreateCategory}>
+            {/* field categoryTitle  */}
+            <FormGroup>
+              <Label for="categoryTitle">Enter CategoryTitle</Label>
+              <Input
+                id="categoryTitle"
+                type="text"
+                name="categoryTitle"
+                placeholder="About Lan..."
+                onChange={(e) =>
+                  setNewCategory({
+                    ...newCategory,
+                    categoryTitle: e.target.value,
+                  })
+                }
+                value={newCategory?.categoryTitle}
+                invalid={categoryError?.err?.categoryTitle ? true : false}
+              />
+              <FormText>{categoryError.err?.categoryTitle}</FormText>
+            </FormGroup>
+            {/* field categoryDiscription  */}
+            <FormGroup>
+              <Label for="categoryDescription">Enter CategoryDescription</Label>
+              <Input
+                id="categoryDescription"
+                type="textarea"
+                style={{ height: 200 }}
+                name="categoryDescription"
+                placeholder="In 21 centuary the tech ..."
+                onChange={(e) =>
+                  setNewCategory({
+                    ...newCategory,
+                    categoryDescription: e.target.value,
+                  })
+                }
+                value={newCategory?.categoryDescription}
+                invalid={categoryError?.err?.categoryDescription ? true : false}
+              />
+              <FormText>{categoryError.err?.categoryDescription}</FormText>
+            </FormGroup>
+            <Container className="text-center mt-2 ">
+              <Button type="submit" className="m-2">
+                Create
+              </Button>{" "}
+              <Button
+                type="reset"
+                className="m-2"
+                onClick={handleCheckboxChange}
+              >
+                Cancel
+              </Button>
+            </Container>
+          </Form>
+        </ModalBody>
+      </Modal>
+    </>
+  );
+};
+
+export default AddPost;
+
+
+}
+
+
+
+look i getting one error at time of user will adding with post data 
+
+error was come because of i added the @toString annoation on User Class
+
+so i try to comment out this and run again that restApi and its work so ...
+
+
+next step : create show all posts in feed page 
+
+
+so we have different 3 types of services or rest APIs for creating the feed page 
+
+now we are writting three method inside post-service.js file for post
+
+post-service.js
+{
+
+export const getPostByUserId=(userId)=>{
+  return myAxios.get(`user/${userId}/posts`,jwtHeader).then((response)=> { return response.data; }).catch((error) => { throw error.response });
+}
+export const getPostByCategoryId=(categoryId)=>{
+  return myAxios.get(`category/${categoryId}/posts`,jwtHeader).then((response)=> { return response.data; }).catch((error) => { throw error.response });
+}
+export const getAllPosts=()=>{
+  return myAxios.get(`posts`,jwtHeader).then((response)=> { return response.data; }).catch((error) => { throw error.response });
+}
+}
+
+and now we are going to create NewFeed.jsx page 
+in this page we are getting the all post and using the map we are passing on bye one single post to the Post.jsx page where it show on screen
+
+NewFeed.jsx
+
+{
+import React, { useEffect, useState } from "react";
+import {
+  getAllPosts,
+  getPostByCategoryId,
+  getPostByUserId,
+} from "../services/post-service";
+import { getCurrentUserDetail } from "../auth";
+import { Col, Row } from "reactstrap";
+import Post from "./Post";
+
+const NewFeed = () => {
+  const [postsData, setPostsData] = useState(null);
+  useEffect(() => {
+    // get All post from server
+    getAllPosts()
+      .then((data) => {
+        console.log(data);
+        setPostsData(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    // getPostByUserId(getCurrentUserDetail().id)
+    //   .then((data) => {
+    //     console.log(data);
+    //     setPostsData(data);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+    // getPostByCategoryId(4)
+    //   .then((data) => {
+    //     console.log(data);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+  }, []);
+
+  return (
+    <div className="container-fluid">
+      <Row>
+        <Col md={{ size: 10, offset: 1 }}>
+          <h3>Blog Content ( {JSON.stringify(postsData?.totalElement)})</h3>
+
+          {postsData?.content.map((post) => (
+            <Post  post={post} key={post?.postId}/>
+          ))}
+        </Col>
+      </Row>
+    </div>
+  );
+};
+export default NewFeed;
+
+}
+and 
+
+Post.jsx
+
+{
+import React from "react";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  CardText,
+} from "reactstrap";
+
+const Post = ({
+  post = { title: "This is Default Title", content: "This is Default Content" },
+}) => {
+  return (
+    <Card className="border-0 shadow-sm mt-3">
+      <CardBody>
+        <h3>{post?.title}</h3>
+        <CardText>{post?.content.substring(0, 30)}...</CardText>
+        <CardFooter>{post?.addDate}</CardFooter>
+        <Button>Read More</Button>
+      </CardBody>
+    </Card>
+  );
+};
+
+export default Post;
+
+}
+
+and also we are changing code of Home.jsx page
+
+Home.jsx
+
+{
+const Home = () => {
+  return (
+    <Base>
+      <Container className="mt-3">
+        <NewFeed />
+      </Container>
+    </Base>
+  );
+};
+
+export default Home;
+
+}
+
+
+
+nest step : now u want to apply pagination for the post page or newFeed.jsx page
+here first i create the Parent class object <Pagination></Pagination>  so inside in that i need to apply re Link and text object like this below code type 
+
+{
+
+ <Container className="mt-3">
+            <Pagination className="border-1 " size="lg">
+              <PaginationItem
+                onClick={() => changePage(postsData.pageNumber-1)}
+                disabled={postsData.pageNumber == 0}
+              >
+                <PaginationLink previous>Previous</PaginationLink>
+              </PaginationItem>
+              {[...Array(postsData.totalpages)].map((item, index) => (
+                <PaginationItem
+                  key={index}
+                  onClick={() => changePage(index)}
+                  active={postsData.pageNumber == index}
+                >
+                  <PaginationLink>{index + 1}</PaginationLink>
+                </PaginationItem>
+              ))}
+              <PaginationItem
+                onClick={() => changePage(postsData.pageNumber+1)}
+                disabled={postsData.lastPage}
+              >
+                <PaginationLink next>Next</PaginationLink>
+              </PaginationItem>
+            </Pagination>
+          </Container>
+
+}
+see above code in that i create first previous button and after that number's and lastly Next for end the pagination 
+
+so here i created the changePost() method for that get the wantted page from server side 
+
+look the full code of NewFeed.jsx page 
+{
+import React, { useEffect, useState } from "react";
+import {
+  getAllPosts,
+  getPostByCategoryId,
+  getPostByUserId,
+} from "../services/post-service";
+// import { getCurrentUserDetail } from "../auth";
+import {
+  Col,
+  Container,
+  Pagination,
+  PaginationItem,
+  PaginationLink,
+  Row,
+} from "reactstrap";
+import Post from "./Post";
+import { toast } from "react-toastify";
+
+const NewFeed = () => {
+  const [postsData, setPostsData] = useState({
+    content: [],
+    firstPage: false,
+    lastPage: false,
+    pageNumber: "",
+    pageSize: "",
+    sortBy: "",
+    sortDir: "",
+    totalElement: "",
+    totalpages: "",
+  });
+  useEffect(() => {
+    // get All post from server
+
+    // getAllPosts(0,5)
+    //   .then((data) => {
+    //     console.log(data);
+    //     setPostsData(data);
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
+
+    changePage(0);
+
+    // getPostByUserId(getCurrentUserDetail().id)
+    //   .then((data) => {
+    //     console.log(data);
+    //     setPostsData(data);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+    // getPostByCategoryId(4)
+    //   .then((data) => {
+    //     console.log(data);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+  }, []);
+
+  const changePage = (pageNumber = 0, pageSize = 5) => {
+    if(pageNumber>postsData.pageNumber && postsData.lastPage)
+    return
+    if(pageNumber<postsData.pageNumber && postsData.pageNumber==0)
+    return
+    getAllPosts(pageNumber, pageSize)
+      .then((data) => {
+        setPostsData(data);
+        window.scroll(0, 0);
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
+  };
+  return (
+    <div className="container-fluid">
+      <Row>
+        <Col md={{ size: 10, offset: 1 }}>
+          <h3>Blog Content ( {JSON.stringify(postsData?.totalElement)})</h3>
+
+          {postsData?.content.map((post) => (
+            <Post post={post} key={post?.postId} />
+          ))}
+
+          <Container className="mt-3">
+            <Pagination className="border-1 " size="lg">
+              <PaginationItem
+                onClick={() => changePage(postsData.pageNumber-1)}
+                disabled={postsData.pageNumber == 0}
+              >
+                <PaginationLink previous>Previous</PaginationLink>
+              </PaginationItem>
+              {[...Array(postsData.totalpages)].map((item, index) => (
+                <PaginationItem
+                  key={index}
+                  onClick={() => changePage(index)}
+                  active={postsData.pageNumber == index}
+                >
+                  <PaginationLink>{index + 1}</PaginationLink>
+                </PaginationItem>
+              ))}
+              <PaginationItem
+                onClick={() => changePage(postsData.pageNumber+1)}
+                disabled={postsData.lastPage}
+              >
+                <PaginationLink next>Next</PaginationLink>
+              </PaginationItem>
+            </Pagination>
+          </Container>
+        </Col>
+      </Row>
+    </div>
+  );
+};
+export default NewFeed;
+
+}
+
+
+so look for the getting the differenet time different pages from server we also changed the server api like this
+
+
+{
+
+export const getAllPosts=(pageNumber,pageSize)=>{
+  return myAxios.get(`posts?pageNumber=${pageNumber}&pageSize=${pageSize}`,jwtHeader).then((response)=> { return response.data; }).catch((error) => { throw error.response });
+}
+
+}
+
+and also when the data comes in newfeed.jsx page at that time the content of post content html not resolve so for that i chnage the some code on Post.jsx page so look that code as well
+
+{
+
+<Card className="border-0 shadow-sm mt-3">
+      <CardBody>
+        <h3>{post?.title}</h3>
+        <CardText dangerouslySetInnerHTML={{__html:post?.content.substring(0, 30)+"..."}}></CardText>
+        <CardText >Date : {post?.addDate}</CardText>
+        <Button className="mt-1">Read More</Button>
+      </CardBody>
+    </Card>
+}
+
+
+next step is show the more about the Post like full post 
+
+i created the PostPage.jsx 
+in this page i first get the purticular postId for and after that i fectch the data of that post 
+
+i need some changes on NewFeed.jsx page 
+changes are
+{
+        <Link className="btn btn-secondary border-1" to={`/posts/${post.postId}`}>Read More</Link>
+
+}
+also i added some code in App.js for create the Route when user will click Read More button then the route and postId will go in URL and open that page
+
+App.js added code {
+
+        <Route path="/posts/:postId" element={<PostPage />}></Route>
+
+}
+
+after this i created the PostPage.jsx  that code look lik e
+
+PostPage.jsx
+
+{
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import Base from "../components/Base";
+import { Card, CardBody, Col, Container, CardText, Row } from "reactstrap";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { getPostByPostId } from "../services/post-service";
+import { BASE_URL } from "../services/helper";
+
+const PostPage = () => {
+  const { postId } = useParams();
+
+  const [post, setPost] = useState(null);
+  useEffect(() => {
+    // load the single post from server
+    getPostByPostId(postId)
+      .then((data) => {
+        setPost(data);
+        console.log(data);
+      })
+      .catch((error) => toast.error(error));
+  }, []);
+
+  const printDate = (numbers) => {
+    return new Date(numbers).toLocaleString();
+  };
+  return (
+    <Base>
+      <Container className="mt-3">
+        <Link to={"/"}>Home</Link> / {post && <Link to={""}>{post.title}</Link>}
+        <Row>
+          <Col md={{ size: 14 }}>
+            <Card className="mt-3 ps-2">
+              {post && (
+                <CardBody>
+                  <CardText>
+                    Posted By <b>{post.user.name}</b> on{" "}
+                    <b>{printDate(post.addDate)}</b>
+                  </CardText>
+                  <CardText>
+                   Category <span className="text-muted ">{post.category.categoryTitle}</span> 
+                  </CardText>
+                  <div className="divder " style={{width:'100%',height:'1px',background:'#e2e2e2'}}></div>
+                  <CardText className="mt-3 text-center">
+                    <h1>{post.title}</h1>
+                  </CardText>
+                  <div
+                    className="image-conatiner container  mt-4 shadow-lg rounded-1  p-2"
+                    style={{ maxWidth: "50%",background:'ButtonFace' }}
+                  >
+                    <img
+                      className="img-fluid rounded-1"
+                      src={`${BASE_URL}post/image/${post.imageName}`}
+                    />
+                  </div>
+                  {/* <a href={`${BASE_URL}post/image/${post.imageName}`}>Image</a> */}
+                <CardText dangerouslySetInnerHTML={{__html:post.content}} className="mt-5"></CardText>
+
+                </CardBody>
+              )}
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </Base>
+  );
+};
+
+export default PostPage;
+
+}
+
+
+next step : i need to show the comment of user did on perticular post 
+
+so for that im going to write code on sample PostPage.jsx page/file
+
+
+so this step i am going to write code inside the PostPage.jsx page/ file
+
+here im getting the object of Post inside the post.comment getting all comment about the perticular post 
+
+here is whole code of PostPage.jsx
+{
+
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import Base from "../components/Base";
+import {
+  Card,
+  CardBody,
+  Col,
+  Container,
+  CardText,
+  Row,
+  CardHeader,
+  Input,
+  Button,
+  Form,
+} from "reactstrap";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { getPostByPostId } from "../services/post-service";
+import { BASE_URL } from "../services/helper";
+import { getCurrentUserDetail, isLoggedIn } from "../auth";
+import { createComment } from "../services/comment-service";
+
+const PostPage = () => {
+  const { postId } = useParams();
+
+  const [comment, setComment] = useState({
+    content: "",
+    userId: getCurrentUserDetail().id,
+    postId: postId,
+  });
+  
+  const [post, setPost] = useState(null);
+  useEffect(() => {
+    // load the single post from server
+    getPostByPostId(postId)
+      .then((data) => {
+        setPost(data);
+        console.log(data);
+      })
+      .catch((error) => toast.error(error));
+  }, []);
+
+  const printDate = (numbers) => {
+    return new Date(numbers).toLocaleString();
+  };
+
+  const submitComment = (e) => {
+    e.preventDefault();
+    if (!isLoggedIn()) {
+      toast.error("User first Login!!");
+      return;
+    }
+    if (comment.content.trim() === "") return;
+
+    createComment(comment)
+      .then((data) => {
+        console.log("Done");
+        console.log(data);
+        setPost({
+          ...post,
+          comment: [...post.comment, data],
+        });
+        console.log(post);
+        setComment({
+          ...comment,
+          content: "",
+        });
+      })
+      .catch((error) => {
+        console.log("Error");
+        console.log(error);
+      });
+  };
+  return (
+    <Base>
+      <Container className="mt-3">
+        <Link to={"/"}>Home</Link> / {post && <Link to={""}>{post.title}</Link>}
+        <Row>
+          <Col md={{ size: 14 }}>
+            <Card className="mt-3 ps-2">
+              {post && (
+                <CardBody>
+                  <CardText>
+                    Posted By <b>{post.user.name}</b> on{" "}
+                    <b>{printDate(post.addDate)}</b>
+                  </CardText>
+                  <CardText>
+                    Category{" "}
+                    <span className="text-muted ">
+                      {post.category.categoryTitle}
+                    </span>
+                  </CardText>
+                  <div
+                    className="divder "
+                    style={{
+                      width: "100%",
+                      height: "1px",
+                      background: "#e2e2e2",
+                    }}
+                  ></div>
+                  <CardText className="mt-3 text-center">
+                    <h1>{post.title}</h1>
+                  </CardText>
+                  <div
+                    className="image-conatiner container  mt-4 shadow-lg rounded-1  p-2"
+                    style={{ maxWidth: "50%", background: "ButtonFace" }}
+                  >
+                    <img
+                      className="img-fluid rounded-1"
+                      src={`${BASE_URL}post/image/${post.imageName}`}
+                    />
+                  </div>
+                  {/* <a href={`${BASE_URL}post/image/${post.imageName}`}>Image</a> */}
+                  <CardText
+                    dangerouslySetInnerHTML={{ __html: post.content }}
+                    className="mt-5"
+                  ></CardText>
+                </CardBody>
+              )}
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={{ size: 10, offset: 1 }}>
+            <Card className="mt-3">
+              <CardHeader className="text-muted display-6">Comment</CardHeader>
+
+              {post?.comment.map((data, index) => (
+                <CardBody className="m-0 pt-0  ">
+                  <CardText className="mt-3 ps-3" key={index}>
+                    {data?.content}
+                  </CardText>
+                  <div
+                    className="divder "
+                    style={{
+                      width: "100%",
+                      height: "1px",
+                      background: "#e2e2e2",
+                    }}
+                  ></div>{" "}
+                </CardBody>
+              ))}
+              <CardBody>
+                <CardText>
+                  <Form onSubmit={submitComment}>
+                    <Input
+                      type="textarea"
+                      value={comment.content}
+                      placeholder="Comment here..."
+                      onChange={(e) =>
+                        setComment({ ...comment, content: e.target.value })
+                      }
+                    />
+                    <Button type="submit" className="btn bg-primary  mt-4">
+                      Submit
+                    </Button>
+                  </Form>
+                </CardText>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </Base>
+  );
+};
+
+export default PostPage;
+
+}
+
+look at here i also added the comments inside card and at last of comment i added the input textarea field for getting the comment of user logged
+and now the next step is i also created the comment-service.js file where i create the method to call server 
+
+comment-service.js
+{
+
+// create comment on post by userId
+
+import { jwtHeader, myAxios } from "./helper";
+
+export const createComment = (comment) => {
+
+    console.log(`/post/${comment.postId}/user/${comment.userId}/comments`);
+  return myAxios
+    .post(`/post/${comment.postId}/user/${comment.userId}/comments`, comment, jwtHeader)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      throw error.response;
+    });
+};
+
+}
+
+
+
+next step is to delete the post comment which user will created at time of login
+for that i need to chnage or added some code inside the postPage.jsx where first i need to detect the user created postComments 
+here one twist where if user is login and it have the comment on that post then only it visible the Delete button and otherwise nope
+
+
+first i created the delete method 
+comment-service.js
+{
+
+export const deleteComment = (commentId) => {
+  return myAxios
+    .delete(`/post/${commentId}/comments`, jwtHeader)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      throw error.response;
+    });
+};
+
+}
+
+and after this i chnaged some code inside in Comment Card
+
+PostPage.jsx updated code 
+
+{
+
+const handleDeleteComment = (commentId) => {
+    if (!isLoggedIn()) {
+      toast.error("User Must Login !!");
+    }
+    deleteComment(commentId)
+      .then((data) => {
+        console.log(data);
+        toast.success(data);
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error(error);
+      });
+  };
+
+and 
+
+
+{post?.comment.map((data, index) => (
+                <CardBody className="m-0 pt-0  ">
+                  <CardText
+                    className="mt-3 ps-3 align-content-center "
+                    key={index}
+                  >
+                    {data?.content}
+                    {data?.userId === getCurrentUserDetail()?.id && ( // Check if the user is the owner
+                      <Button
+                        color="danger"
+                        className="float-end"
+                        onClick={() => handleDeleteComment(data.commentId)}
+                      >
+                        Delete
+                      </Button>
+                    )}
+                  </CardText>
+
+                  <div
+                    className="divder "
+                    style={{
+                      width: "100%",
+                      height: "1px",
+                      background: "#e2e2e2",
+                    }}
+                  ></div>
+                </CardBody>
+              ))}
+
+
+}

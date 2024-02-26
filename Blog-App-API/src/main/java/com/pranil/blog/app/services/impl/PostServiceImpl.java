@@ -1,5 +1,6 @@
 package com.pranil.blog.app.services.impl;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.pranil.blog.app.entities.Post;
 import com.pranil.blog.app.entities.*;
 import com.pranil.blog.app.exceptions.ResourceNotFoundException;
 import com.pranil.blog.app.payloads.PostDto;
@@ -40,7 +40,7 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public PostDto createPost(PostDto dto, Integer userId, Integer categoryId) {
-
+		System.out.println(userId + "  : " + categoryId);
 		User user = this.userRepo.findById(userId)
 				.orElseThrow(() -> new ResourceNotFoundException("User ", " not found ", userId));
 		Category category = this.categoryRepo.findById(categoryId)
@@ -67,18 +67,26 @@ public class PostServiceImpl implements PostService {
 		post.setContent(dto.getContent());
 		if (dto.getImageName() != null)
 			post.setImageName(dto.getImageName());
-
+        Category category = this.categoryRepo.findById(dto.getCategory().getCategoryId()).get();
+//        System.out.println(category.toString());
+		post.setCategory(category);
 		Post save = this.postRepo.save(post);
 
 		return this.modelMapper.map(save, PostDto.class);
 	}
 
 	@Override
-	public void deletePost(Integer postId) {
+	public void deletePost(String path, Integer postId) {
+
 		Post post = this.postRepo.findById(postId)
 				.orElseThrow(() -> new ResourceNotFoundException(" Post ", " not found ", postId));
 
-		this.postRepo.delete(post);
+		this.postRepo.deleteById(postId);
+
+		File file2 = new File(path + File.separator + post.getImageName());
+		if (file2.exists())
+			System.out.println(file2.delete());
+
 	}
 
 	@Override
@@ -90,22 +98,19 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public PostResponse getAllPost(Integer pageSize, Integer pageNumber,String sortBy,String sortDir) {
+	public PostResponse getAllPost(Integer pageSize, Integer pageNumber, String sortBy, String sortDir) {
 
+		Sort sort = (sortDir.equalsIgnoreCase("asc")) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
 
-		Sort sort=(sortDir.equalsIgnoreCase("asc"))?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
-
-		
-		Pageable of = PageRequest.of(pageNumber,pageSize,sort);
+		Pageable of = PageRequest.of(pageNumber, pageSize, sort);
 
 		Page<Post> pagePost = this.postRepo.findAll(of);
 		List<Post> content = pagePost.getContent();
 
 		List<PostDto> collect = content.stream().map((post) -> this.modelMapper.map(post, PostDto.class))
 				.collect(Collectors.toList());
-		
 
-		return this.getObject(collect,pagePost,sortBy,sortDir);
+		return this.getObject(collect, pagePost, sortBy, sortDir);
 	}
 
 	// comman method for the return the object of PostResponse
@@ -124,14 +129,15 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public PostResponse getPostsByCategory(Integer categoryId, Integer pageSize, Integer pageNumber,String sortBy,String sortDir) {
+	public PostResponse getPostsByCategory(Integer categoryId, Integer pageSize, Integer pageNumber, String sortBy,
+			String sortDir) {
 
 		Category category = this.categoryRepo.findById(categoryId)
 				.orElseThrow(() -> new ResourceNotFoundException(" Category ", " not Found ", categoryId));
 
-		Sort sort=(sortDir.equalsIgnoreCase("asc"))?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
+		Sort sort = (sortDir.equalsIgnoreCase("asc")) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
 
-		Pageable of = PageRequest.of(pageNumber,pageSize,sort);
+		Pageable of = PageRequest.of(pageNumber, pageSize, sort);
 
 		Page<Post> pagePost = this.postRepo.findByCategory(category, of);
 
@@ -139,44 +145,46 @@ public class PostServiceImpl implements PostService {
 
 		List<PostDto> collect = pagePost.stream().map((post) -> this.modelMapper.map(post, PostDto.class))
 				.collect(Collectors.toList());
-		
-		return this.getObject(collect,pagePost,sortBy,sortDir);
+
+		return this.getObject(collect, pagePost, sortBy, sortDir);
 
 	}
 
 	@Override
-	public PostResponse getPostsByUser(Integer userId, Integer pageSize, Integer pageNumber,String sortBy,String sortDir) {
+	public PostResponse getPostsByUser(Integer userId, Integer pageSize, Integer pageNumber, String sortBy,
+			String sortDir) {
 		User user = this.userRepo.findById(userId)
 				.orElseThrow(() -> new ResourceNotFoundException(" User ", " not Found ", userId));
 
-		Sort sort=(sortDir.equalsIgnoreCase("asc"))?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
+		Sort sort = (sortDir.equalsIgnoreCase("asc")) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
 
-		Pageable of = PageRequest.of(pageNumber,pageSize,sort);
-		
+		Pageable of = PageRequest.of(pageNumber, pageSize, sort);
+
 		Page<Post> pagePost = this.postRepo.findByUser(user, of);
 
 		// List<Post> posts = this.postRepo.);
 
 		List<PostDto> collect = pagePost.stream().map((post) -> this.modelMapper.map(post, PostDto.class))
 				.collect(Collectors.toList());
-		
-		return this.getObject(collect,pagePost,sortBy,sortDir);
+
+		return this.getObject(collect, pagePost, sortBy, sortDir);
 
 	}
 
 	@Override
-	public PostResponse searchPosts(String keyword, Integer pageSize, Integer pageNumber,String sortBy,String sortDir) {
-		
-		Sort sort=(sortDir.equalsIgnoreCase("asc"))?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
+	public PostResponse searchPosts(String keyword, Integer pageSize, Integer pageNumber, String sortBy,
+			String sortDir) {
 
-		Pageable of = PageRequest.of(pageNumber,pageSize,sort);
-		
-		Page<Post> pagePost = this.postRepo.findByTitleContaining(keyword,of);
-		
-		
-		List<PostDto> collect = pagePost.stream().map((post)-> this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
-		
-		return this.getObject(collect,pagePost,sortBy,sortDir);
+		Sort sort = (sortDir.equalsIgnoreCase("asc")) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+
+		Pageable of = PageRequest.of(pageNumber, pageSize, sort);
+
+		Page<Post> pagePost = this.postRepo.findByTitleContaining(keyword, of);
+
+		List<PostDto> collect = pagePost.stream().map((post) -> this.modelMapper.map(post, PostDto.class))
+				.collect(Collectors.toList());
+
+		return this.getObject(collect, pagePost, sortBy, sortDir);
 
 	}
 

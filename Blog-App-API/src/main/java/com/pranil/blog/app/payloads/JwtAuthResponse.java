@@ -6,7 +6,7 @@ import lombok.Data;
 public class JwtAuthResponse {
 
 	private String token; 
-
+    private UserDto user;
 	public JwtAuthResponse() {
 		// TODO Auto-generated constructor stub
 	}

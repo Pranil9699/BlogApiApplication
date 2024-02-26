@@ -48,6 +48,7 @@ public class FileServiceImpl implements FileService {
 		
 		
 		File file2 = new File(path+File.separator+recoverImg);
+		System.out.println(path+File.separator+recoverImg);
 		if(file2.exists()) {
 			System.out.println("File is :");
 			boolean delete = file2.delete();

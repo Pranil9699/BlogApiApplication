@@ -1,6 +1,8 @@
 package com.pranil.blog.app.config;
 
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -14,6 +16,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.pranil.blog.app.security.CustomUserDetailService;
@@ -42,11 +46,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+//		http.csrf().disable();
+//		System.out.println("1");
 		http.csrf().disable().authorizeHttpRequests().antMatchers(PUBLIC_URL).permitAll()
 		.antMatchers(HttpMethod.GET).permitAll().anyRequest().authenticated().and().exceptionHandling()
 				.authenticationEntryPoint(this.jwtAuthenticationEntryPoint).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(this.jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+//		http.csrf().disable();
 		System.out.println("1");
 	}
 
@@ -64,7 +71,43 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 
 	}
-
+     
+	@Bean
+	public FilterRegistrationBean corsFilter() {
+		
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		
+		// Construct a new CorsConfiguration instance with no cross-originrequests allowed for any origin by default.
+		CorsConfiguration corsConfiguration = new CorsConfiguration();
+		corsConfiguration.setAllowCredentials(true);  // by default this is not set , user need to set credential 
+		
+		// here it * denoted which ever url pattern will having in our backend application we need to allow all that 
+		corsConfiguration.addAllowedOriginPattern("*");
+		
+		// here we allow what here are allow to access at time of method header for front end application 
+		corsConfiguration.addAllowedHeader("Authorization");
+		corsConfiguration.addAllowedHeader("Content-Type");
+		corsConfiguration.addAllowedHeader("Accept");
+		
+		//  here we allow method which cors means front end application will allow to access 
+		corsConfiguration.addAllowedMethod("POST");
+		corsConfiguration.addAllowedMethod("GET");
+		corsConfiguration.addAllowedMethod("PUT");
+		corsConfiguration.addAllowedMethod("DELETE");
+		corsConfiguration.addAllowedMethod("OPTIONS");
+		
+		source.registerCorsConfiguration("/**",corsConfiguration);
+		// this will provide the bean which configuraed all thing to allow the Cors req
+		FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+		
+		
+		// setting the order 
+		bean.setOrder(-110);
+		
+		
+		return bean;
+	}
+	
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {

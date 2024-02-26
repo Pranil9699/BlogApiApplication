@@ -20,6 +20,11 @@ public class GlobalExceptionHandler {
 		
 		return new ResponseEntity<ApiResponse>(new ApiResponse(exception.getMessage(),false),HttpStatus.NOT_FOUND);
 	}
+	@ExceptionHandler(DuplicateEmailException.class)
+	public ResponseEntity<ApiResponse> resourceNotFoundExceptionHandler(DuplicateEmailException exception){
+//		System.out.println("Duplicate..");
+		return new ResponseEntity<ApiResponse>(new ApiResponse(exception.getMessage(),false),HttpStatus.CONFLICT);
+	}
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<Map<String,String>> handelMethodArgsNotValidException(MethodArgumentNotValidException ex){

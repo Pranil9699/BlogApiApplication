@@ -14,10 +14,10 @@ import lombok.Setter;
 public class CategoryDto {
 
 	private Integer categoryId;
-	@NotEmpty(message="Title Must Fill!")
+//	@NotEmpty(message="Title Must Fill!")
 	@Size(min=4,max = 50)
 	private String categoryTitle;
-	@NotEmpty(message="Description Must Fill!")
+//	@NotEmpty(message="Description Must Fill!")
 	@Size(min=10,max = 1000)
 	private String categoryDescription;
 }

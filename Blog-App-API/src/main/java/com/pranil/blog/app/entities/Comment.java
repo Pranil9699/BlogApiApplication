@@ -2,6 +2,7 @@ package com.pranil.blog.app.entities;
 
 import javax.persistence.*;
 
+
 import lombok.*;
 
 @Entity

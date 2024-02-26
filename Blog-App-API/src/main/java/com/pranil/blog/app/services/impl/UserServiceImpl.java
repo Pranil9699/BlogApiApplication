@@ -1,6 +1,9 @@
 package com.pranil.blog.app.services.impl;
 
+import java.sql.SQLDataException;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -103,13 +106,17 @@ public class UserServiceImpl implements UserService {
 	public UserDto registerNewUser(UserDto userDto) {
 		User user = this.modelMapper.map(userDto, User.class);
 		// encoded password
+		System.out.println("password is :"+user.getPassword());
 		user.setPassword(this.passwordEncoder.encode(user.getPassword()));
 
 		// roles
 		Role role = this.roleRepo.findById(AppConstants.NORMAL_USER).get();
 
 		user.getRoles().add(role);
-
+		if (this.userRepo.findByEmail(user.getEmail()).isPresent()) {
+			
+	        throw new DuplicateEmailException(user.getEmail());
+	    }
 		User save = this.userRepo.save(user);
 
 		return this.modelMapper.map(save, UserDto.class);

@@ -2,6 +2,9 @@ package com.pranil.blog.app.contollers;
 
 import java.util.Arrays;
 
+import javax.validation.Valid;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,7 @@ import com.pranil.blog.app.payloads.JwtAuthResponse;
 import com.pranil.blog.app.payloads.UserDto;
 import com.pranil.blog.app.security.JwtTokenHelper;
 import com.pranil.blog.app.services.UserService;
+import com.pranil.blog.app.services.impl.UserServiceImpl;
 
 @RestController
 @RequestMapping("/api/v1/auth/")
@@ -40,6 +44,9 @@ public class AuthController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+	@Autowired
+	private ModelMapper mapper;
+
 	@PostMapping("login")
 	public ResponseEntity<JwtAuthResponse> createToken(@RequestBody JwtAuthRequest request) throws Exception {
 
@@ -53,6 +60,8 @@ public class AuthController {
 
 		JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
 		jwtAuthResponse.setToken(generateToken);
+		System.out.println((UserDto) this.mapper.map(userDetails, UserDto.class));
+		jwtAuthResponse.setUser((UserDto) this.mapper.map(userDetails, UserDto.class));
 
 		return new ResponseEntity<JwtAuthResponse>(jwtAuthResponse, HttpStatus.OK);
 
@@ -72,14 +81,15 @@ public class AuthController {
 	}
 
 	@PostMapping("register")
-	public ResponseEntity<UserDto> registerUser(@RequestBody UserDto userdto) {
-		char[] charArray = userdto.getPassword().toCharArray();
+	public ResponseEntity<UserDto> registerUser(@Valid @RequestBody UserDto userdto) {
+//		char[] charArray = userdto.getPassword().toCharArray();
+		System.out.println("Password is : " + userdto.getPassword());
 		UserDto registerNewUser = this.userService.registerNewUser(userdto);
-		StringBuilder concatenatedPassword = new StringBuilder();
-		Arrays.asList(charArray).forEach(c -> concatenatedPassword.append(c));
+//		StringBuilder concatenatedPassword = new StringBuilder();
+//		Arrays.asList(charArray).forEach(c -> concatenatedPassword.append(c));
 
 		// Set the concatenated password to the UserDto
-		registerNewUser.setPassword(concatenatedPassword.toString());
+//		registerNewUser.setPassword(concatenatedPassword.toString());
 		return new ResponseEntity<UserDto>(registerNewUser, HttpStatus.CREATED);
 	}
 

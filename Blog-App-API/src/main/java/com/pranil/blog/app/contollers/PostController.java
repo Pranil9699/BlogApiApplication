@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,7 +33,7 @@ import com.pranil.blog.app.services.FileService;
 import com.pranil.blog.app.services.PostService;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/v1")
 @CrossOrigin("*")
 public class PostController {
 	@Autowired
@@ -46,9 +47,10 @@ public class PostController {
 
 	// create
 	@PostMapping("/user/{userId}/category/{categoryId}/posts")
-	public ResponseEntity<PostDto> createPost(@RequestBody PostDto postDto, @PathVariable Integer userId,
+	public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDto, @PathVariable Integer userId,
 			@PathVariable Integer categoryId) {
-
+//		System.out.println(postDto.toString());
+//System.out.println(" user id "+userId+" : category id  "+categoryId);
 		PostDto createPost = this.postService.createPost(postDto, userId, categoryId);
 
 		return new ResponseEntity<PostDto>(createPost, HttpStatus.CREATED);
@@ -80,7 +82,7 @@ public class PostController {
 
 
 		PostResponse postsByCategory = this.postService.getPostsByCategory(categoryId,pageSize, pageNumber,sortBy,sortDir);
-
+        System.out.println(postsByCategory);
 		return new ResponseEntity<PostResponse>(postsByCategory, HttpStatus.OK);
 	}
 
@@ -111,8 +113,8 @@ public class PostController {
 	// delete post
 	@DeleteMapping("/posts/{postId}")
 	public ResponseEntity<ApiResponse> deletePost(@PathVariable Integer postId) {
-
-		this.postService.deletePost(postId);
+		
+		this.postService.deletePost(path,postId);
 		return new ResponseEntity<ApiResponse>(new ApiResponse("Post Is Deleted!", true), HttpStatus.OK);
 
 	}

@@ -19,7 +19,7 @@ import com.pranil.blog.app.services.CategoryService;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/categories")
+@RequestMapping("/api/v1/categories")
 public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;
@@ -27,8 +27,9 @@ public class CategoryController {
 	// create
 	@PostMapping("/")
 	public ResponseEntity<CategoryDto> createCategory(@Valid @RequestBody CategoryDto categoryDto) {
+//		System.out.println("hi srk");
 		CategoryDto createCategory = categoryService.createCategory(categoryDto);
-		System.out.println("Done.");
+//		System.out.println("Done.");
 		return new ResponseEntity<CategoryDto>(createCategory,HttpStatus.CREATED);
 	}
 

@@ -26,9 +26,11 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public CategoryDto createCategory(CategoryDto categoryDto) {
 
+		System.out.println("Hi there");
 		Category category = this.modelMapper.map(categoryDto, Category.class);
+		System.out.println("Hi there");
 		Category save = this.categoryRepo.save(category);
-
+		System.out.println("Hi there");
 		return this.modelMapper.map(save, CategoryDto.class);
 	}
 

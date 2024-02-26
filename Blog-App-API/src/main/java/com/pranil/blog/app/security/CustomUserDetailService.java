@@ -17,10 +17,10 @@ public class CustomUserDetailService implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("hi");
+//        System.out.println("hi");
 		User user = this.repo.findByEmail(username).orElseThrow(()->new ResourceNotFoundException("Username", "not found with email : "+username, 0));
 		
-		System.out.println(user.getEmail()+" "+user.getPassword());
+//		System.out.println(user.getEmail()+" "+user.getPassword());
 		return user;
 	}
 

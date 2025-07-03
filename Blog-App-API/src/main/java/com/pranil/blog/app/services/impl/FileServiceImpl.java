@@ -16,48 +16,42 @@ import com.pranil.blog.app.services.FileService;
 @Service
 public class FileServiceImpl implements FileService {
 
-	@Override
-	public String uploadImage(String path, MultipartFile file,String recoverImg) throws IOException {
-		
-		
-		// file name 
-		String name = file.getOriginalFilename();
-		
-		
-		//random name generate File
-		
-		String randomID = UUID.randomUUID().toString();
-		String fileName = randomID.concat(name.substring(name.lastIndexOf(".")));
-		
-		
-		//fullpath
-		String filePath = path+File.separator+fileName;
-		
-		//create folder if not created
-		
-		File f = new File(path);
-		if(!f.exists()) {
-			f.mkdir();
-		}
-		
-		//file copy
-		
-		Files.copy(file.getInputStream(), Paths.get(filePath));
-		System.out.println(Paths.get(filePath));
-		System.out.println(path+recoverImg);
-		
-		
-		File file2 = new File(path+File.separator+recoverImg);
-		System.out.println(path+File.separator+recoverImg);
-		if(file2.exists()) {
-			System.out.println("File is :");
-			boolean delete = file2.delete();
-			System.out.println("File is :"+delete);
-		}
-		return fileName;
-	}
+    @Override
+    public String uploadImage(String path, MultipartFile file, String recoverImg) throws IOException {
+        // Ensure target folder exists
+        File folder = new File(path);
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
 
-	@Override
+        // Try deleting old image first
+        if (recoverImg != null && !recoverImg.trim().equals("")) {
+            File oldFile = new File(path + File.separator + recoverImg);
+            System.out.println("Trying to delete old image: " + oldFile.getAbsolutePath());
+            if (oldFile.exists()) {
+                oldFile.setWritable(true); // ensure permission
+                boolean deleted = oldFile.delete();
+                System.out.println("Old image deleted: " + deleted);
+            } else {
+                System.out.println("Old image does not exist.");
+            }
+        }
+
+        // Generate new filename
+        String originalName = file.getOriginalFilename();
+        String extension = originalName.substring(originalName.lastIndexOf("."));
+        String randomID = UUID.randomUUID().toString();
+        String fileName = randomID + extension;
+
+        // Save new file
+        String filePath = path + File.separator + fileName;
+        Files.copy(file.getInputStream(), Paths.get(filePath));
+
+        return fileName;
+    }
+
+
+    @Override
 	public InputStream getResource(String path, String fileName) throws FileNotFoundException {
 
 		String fullPath = path+File.separator+fileName;

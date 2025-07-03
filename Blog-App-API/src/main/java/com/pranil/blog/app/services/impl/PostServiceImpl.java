@@ -78,14 +78,18 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public void deletePost(String path, Integer postId) {
 
-		Post post = this.postRepo.findById(postId)
-				.orElseThrow(() -> new ResourceNotFoundException(" Post ", " not found ", postId));
+        Post post = this.postRepo.findById(postId)
+                .orElseThrow(() -> new ResourceNotFoundException(" Post ", " not found ", postId));
 
-		this.postRepo.deleteById(postId);
+        this.postRepo.deleteById(postId);
 
-		File file2 = new File(path + File.separator + post.getImageName());
-		if (file2.exists())
-			System.out.println(file2.delete());
+        File file2 = new File(path + File.separator + post.getImageName());
+        System.out.println(file2.getName());
+        if (file2.exists()){
+            System.out.println("File Deleted");
+        System.out.println(file2.delete());
+    }
+
 
 	}
 
